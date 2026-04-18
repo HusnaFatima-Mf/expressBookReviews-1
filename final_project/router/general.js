@@ -7,6 +7,32 @@ const public_users = express.Router();
 
 public_users.post("/register", (req,res) => {
   //Write your code here
+  const { username, password } = req.body;
+
+    // Check if username & password are provided
+
+    if (!username || !password) {
+
+        return res.status(400).json({ message: "Username and password required" });
+
+    }
+
+    // Check if user already exists
+
+    let userExists = users.find(user => user.username === username);
+
+    if (userExists) {
+
+        return res.status(409).json({ message: "User already exists" });
+
+    }
+
+    // Add new user
+
+    users.push({ username, password });
+
+    return res.status(200).json({ message: "User registered successfully" });
+});
   return res.status(300).json({message: "Yet to be implemented"});
 });
 
