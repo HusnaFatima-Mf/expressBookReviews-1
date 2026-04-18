@@ -37,8 +37,22 @@ public_users.post("/register", (req,res) => {
 });
 
 // Get the book list available in the shop
+const axios = require('axios');
 public_users.get('/',function (req, res) {
   //Write your code here
+ try {
+
+        const response = await axios.get('http://localhost:5000/');
+
+        return res.status(200).json(response.data);
+
+    } catch (error) {
+
+        return res.status(500).json({ message: "Error fetching books" });
+
+    }
+
+}); 
  return res.status(200).json(JSON.stringify(books));
 });
   return res.status(300).json({message: "Yet to be implemented"});
@@ -47,6 +61,21 @@ public_users.get('/',function (req, res) {
 // Get book details based on ISBN
 public_users.get('/isbn/:isbn',function (req, res) {
   //Write your code here
+  const isbn = req.params.isbn;
+
+    try {
+
+        const response = await axios.get(`http://localhost:5000/isbn/${isbn}`);
+
+        return res.status(200).json(response.data);
+
+    } catch (error) {
+
+        return res.status(404).json({ message: "Book not found" });
+
+    }
+
+});
   const isbn = req.params.isbn;
 
     const book = books[isbn];
